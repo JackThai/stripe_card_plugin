@@ -1,7 +1,7 @@
 name: stripe_card
-description: A new flutter plugin project.
-version: 0.0.1
-author:
+description: Stripe Card Widget
+version: 0.0.2
+author:Thai
 homepage:
 
 environment:

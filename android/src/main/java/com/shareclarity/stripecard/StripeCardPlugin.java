@@ -16,7 +16,7 @@ public class StripeCardPlugin {
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
-    registrar.platformViewRegistry().registerViewFactory("stripe_card",new StripeCardFactory(registrar.messenger()));
     mActivity = registrar.activity();
+    registrar.platformViewRegistry().registerViewFactory("stripe_card",new StripeCardFactory(registrar.messenger(), registrar));
   }
 }

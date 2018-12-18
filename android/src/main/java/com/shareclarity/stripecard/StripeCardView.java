@@ -3,7 +3,10 @@ package com.shareclarity.stripecard;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.stripe.android.Stripe;
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.platform.PlatformView;
 
 import static java.security.AccessController.getContext;
@@ -26,21 +30,29 @@ public class StripeCardView implements PlatformView, MethodChannel.MethodCallHan
     private View mView;
     private CardInputWidget mCardInputWidget;
     String publishKey;
-
-    StripeCardView(Context _context, BinaryMessenger messenger, int id, Object object) {
+    private PluginRegistry.Registrar registrar;
+    StripeCardView(Context _context, BinaryMessenger messenger, int id, Object object, PluginRegistry.Registrar registrar) {
         context = _context;
         methodChannel = new MethodChannel(messenger, "stripe_card_" + id);
-
+        this.registrar = registrar;
         methodChannel.setMethodCallHandler(this);
         publishKey = (String)object;
     }
 
     @Override
     public View getView() {
+        LinearLayout linearLayout = new LinearLayout(context);
+        FrameLayout rootView = (FrameLayout)registrar.activity().getWindow().getDecorView().getRootView();
         mView = StripeCardPlugin.mActivity.getLayoutInflater().inflate(R.layout.layout_card,null);
         mCardInputWidget = (CardInputWidget) mView.findViewById(R.id.card_input_widget);
-
-        return mView;
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, 100, 0, 0);
+        mView.setLayoutParams(params);
+        rootView.addView(mView);
+        return rootView;
     }
 
     @Override
