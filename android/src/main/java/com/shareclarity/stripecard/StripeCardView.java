@@ -15,6 +15,7 @@ import com.stripe.android.model.Token;
 import com.stripe.android.view.CardInputWidget;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -30,13 +31,15 @@ public class StripeCardView implements PlatformView, MethodChannel.MethodCallHan
     private View mView;
     private CardInputWidget mCardInputWidget;
     String publishKey;
+    Map<String, Object> info;
     private PluginRegistry.Registrar registrar;
     StripeCardView(Context _context, BinaryMessenger messenger, int id, Object object, PluginRegistry.Registrar registrar) {
         context = _context;
         methodChannel = new MethodChannel(messenger, "stripe_card_" + id);
         this.registrar = registrar;
         methodChannel.setMethodCallHandler(this);
-        publishKey = (String)object;
+        info = (Map<String, Object>)object;
+        publishKey = (String)info.get("publishKey");
     }
 
     @Override
@@ -49,7 +52,7 @@ public class StripeCardView implements PlatformView, MethodChannel.MethodCallHan
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(0, 100, 0, 0);
+        params.setMargins((int)info.get("left"), (int)info.get("top"), (int)info.get("right"), (int)info.get("bottom"));
         mView.setLayoutParams(params);
         rootView.addView(mView);
         return rootView;

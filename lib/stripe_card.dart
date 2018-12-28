@@ -8,11 +8,11 @@ typedef void StripeWidgetCreatedCallback(StripeController controller);
 class StripeCard extends StatefulWidget {
   const StripeCard({
     Key key,
-    this.publishKey,
+    this.info,
     this.onStripeWidgetCreated,
   }) : super(key: key);
-  final String publishKey;
   final StripeWidgetCreatedCallback onStripeWidgetCreated;
+  final Map<String, dynamic> info;
   @override
   StripeCardState createState() => new StripeCardState();
 }
@@ -22,10 +22,11 @@ class StripeCardState extends State<StripeCard> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
+
       return AndroidView(
         viewType: 'stripe_card',
         onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: widget.publishKey,
+        creationParams: widget.info,
         creationParamsCodec: new StandardMessageCodec(),
       );
     }
@@ -33,7 +34,7 @@ class StripeCardState extends State<StripeCard> with WidgetsBindingObserver{
       return UiKitView(
         viewType: "stripe_card",
         onPlatformViewCreated: _onPlatformViewCreated,
-        creationParams: widget.publishKey,
+        creationParams: widget.info["publishKey"],
         creationParamsCodec: new StandardMessageCodec(),
       );
     }

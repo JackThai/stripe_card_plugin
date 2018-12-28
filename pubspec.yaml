@@ -1,8 +1,8 @@
 name: stripe_card
 description: Stripe Card Widget
-version: 0.0.2
-author:Thai
-homepage:
+version: 0.0.3
+author: Thai
+homepage: http://shareclarity.com
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"

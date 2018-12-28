@@ -29,7 +29,13 @@ class _MyAppState extends State<MyApp> {
                       height: 60,
                       child: StripeCard(
                         onStripeWidgetCreated: _onStripeWidgetCreated,
-                        publishKey: "pk_test_k7IuJEH2DEAXPRtitfhD05WC",
+                        info: <String, dynamic>{
+                          'left': 40,
+                          'top': 300,
+                          'right': 40,
+                          'bottom': 0,
+                          "publishKey" : "pk_test"
+                        }
                       )
                   ),
 
